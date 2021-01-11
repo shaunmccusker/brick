@@ -14,15 +14,15 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverText;
     public int numberofBricks;
 
-    // Start is called before the first frame update
     void Start()
     {
       livesText.text = "LIVES " + lives;
       scoreText.text = "SCORE " + score;
+      // this allows the lives and score to be updated live on screen.
       numberofBricks = GameObject.FindGameObjectsWithTag("brick").Length;
     }
 
-    // Update is called once per frame
+
     void Update()
     {
 
@@ -35,16 +35,19 @@ public class GameManager : MonoBehaviour
     if (lives <= 0){
         lives = 0;
         GameOver ();
+        // this makes the game over screen appear when you are out of lives.
 
     }
     livesText.text = "LIVES " + lives;
-
+    //  this removes lives on screen when the ball falls off the bottom.
   }
 
   public void UpdateScore(int points){
     score += points;
 
     scoreText.text = "SCORE " + score;
+
+    // this adds your score on screen.
   }
 
   void GameOver(){
@@ -58,19 +61,20 @@ public class GameManager : MonoBehaviour
   numberofBricks --;
   if (numberofBricks <=0){
   GameOver ();
+  // this brings the gameover screen when there are no bricks left on screen.
 
   }
 }
 
   public void Again(){
   SceneManager.LoadScene("SampleScene");
-
+  // this defines what happens when you press the Again button on the gameover screen: it resets the game.
   }
 
   public void Quit(){
     Application.Quit ();
-    Debug.Log ("so long");
-
+    Debug.Log ("quit");
+  // this defines what happens when you press the quit button on the gameover screen: It quits the game. There is a message put in the debug log so i could test it worked, as it cannot quit out on Unity.
 
   }
 }

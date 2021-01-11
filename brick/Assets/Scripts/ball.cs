@@ -14,14 +14,14 @@ public class ball : MonoBehaviour
   public AudioSource audio;
 
 
-    // Start is called before the first frame update
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D> ();
         audio = GetComponent<AudioSource> ();
     }
 
-    // Update is called once per frame
+
     void Update()
     {
       if (gamemanager.gameOver){
@@ -30,10 +30,12 @@ public class ball : MonoBehaviour
       }
       if(inPlay == false){
          transform.position = paddle.position;
+         // this sets the reset point for the ball when it falls off the bottom
       }
       if(Input.GetButtonDown("Jump") && inPlay == false)  {
         inPlay = true;
         rb.AddForce(Vector2.up * speed);
+        // this allows the spacebar to be used to start again after ball respawn
       }
 
     }
@@ -41,10 +43,10 @@ public class ball : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other){
     if (other.CompareTag("Bottom")){
-      Debug.Log("L");
       rb.velocity = Vector2.zero;
       inPlay = false;
       gamemanager.UpdateLives(-1);
+      // This resets the balls speed, position, and removes 1 life upon colliding with the bottom of the screen.
         }
 
     }
@@ -54,12 +56,17 @@ public class ball : MonoBehaviour
         Transform newExplosion = Instantiate(explode,other.transform.position, other.transform.rotation);
         Destroy (newExplosion.gameObject, 2.5f);
 
+        //this destroys the bricks when the ball hits them, and applies the explosion effect.
+
         gamemanager.UpdateScore (other.gameObject.GetComponent<brick>().points);
         gamemanager.UpdateNumberOfBricks ();
+
+        // this is to keep track of the total bricks on screen, so the  game knows when to end. This also updates the points system.
 
         Destroy(other.gameObject);
 
           audio.Play();
+          // this plays the sound effect when a brick is broken.
       }
 
     }
